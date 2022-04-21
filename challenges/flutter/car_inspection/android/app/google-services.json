@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1038518961401",
+    "project_id": "car-inspection-b986c",
+    "storage_bucket": "car-inspection-b986c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038518961401:android:790106befd5a5823118e28",
+        "android_client_info": {
+          "package_name": "com.cesarmatt.car_inspection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038518961401-lvmd9c9k4peprpah0dgoh2gpjb7of7nk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoTQPV6-qg6MhvaRpdGbC8HPQg3P6983Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038518961401-lvmd9c9k4peprpah0dgoh2gpjb7of7nk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
