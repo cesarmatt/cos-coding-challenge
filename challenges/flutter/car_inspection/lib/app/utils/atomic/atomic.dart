@@ -58,6 +58,9 @@ class Atomic {
           color: _subtitle
         ),
       ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: _dark,
+      ),
     );
   }
 }

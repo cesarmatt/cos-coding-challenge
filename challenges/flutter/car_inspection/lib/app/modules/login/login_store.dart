@@ -2,7 +2,7 @@ import 'dart:core';
 import 'dart:io';
 import 'package:car_inspection/app/modules/login/model/login_form_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 import 'model/login_form_state.dart';
@@ -27,7 +27,6 @@ abstract class _LoginStoreBase with Store {
     } else {
       formState = LoginFormState.error();
     }
-
   }
 
   Future<void> doSignIn() async {
@@ -35,7 +34,9 @@ abstract class _LoginStoreBase with Store {
       final credential = await firebaseAuth.signInWithEmailAndPassword(
           email: currentEmail, password: currentPassword
       );
-      print(credential.user);
+      if (credential != null) {
+        navigateToHome();
+      }
     } on IOException catch (exception) {
       print("Error" + exception.toString());
     }
@@ -57,5 +58,9 @@ abstract class _LoginStoreBase with Store {
 
   bool isEmailValid(String email) {
     return email.isNotEmpty;
+  }
+
+  void navigateToHome() {
+    Modular.to.popAndPushNamed('/inspectionlist');
   }
 }

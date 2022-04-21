@@ -16,6 +16,7 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
 
   final LoginStore store = Modular.get();
+  // Move controllers to store file
   final emailTextEditingController = TextEditingController();
   final passwordTextEditingController = TextEditingController();
 
