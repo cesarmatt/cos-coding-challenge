@@ -24,7 +24,7 @@ class HomePageState extends State<HomePage> {
         controller: store.pageViewController,
         children: [
           RouterOutlet(),
-          RouterOutlet()
+          Container()
         ],
       ),
       appBar: AppBar(
