@@ -61,6 +61,6 @@ abstract class _LoginStoreBase with Store {
   }
 
   void navigateToHome() {
-    Modular.to.popAndPushNamed('/inspectionlist');
+    Modular.to.popAndPushNamed('/home/');
   }
 }

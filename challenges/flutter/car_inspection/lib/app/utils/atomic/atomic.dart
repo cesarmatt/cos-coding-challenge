@@ -13,53 +13,50 @@ class Atomic {
   static ThemeData buildTheme(BuildContext context) {
     return ThemeData(
       appBarTheme: AppBarTheme(
-        color: _dark
+        color: _white,
+        elevation: 0,
+        titleTextStyle: TextStyle(
+          color: _dark,
+          fontSize: 18,
+          fontFamily: 'roboto',
+          fontWeight: FontWeight.bold,
+        ),
       ),
       scaffoldBackgroundColor: _white,
       primaryColor: _cab,
       textTheme: TextTheme(
         bodyText1: GoogleFonts.roboto(
-          textStyle: TextStyle(
-            color: _black
-          ),
+          textStyle: TextStyle(color: _black),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          primary: _cab,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          textStyle: TextStyle(
-            color: _subtitle,
-          )
-        ),
+            primary: _cab,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            textStyle: TextStyle(
+              color: _subtitle,
+            )),
       ),
-      iconTheme: IconThemeData(
-        color: _subtitle
-      ),
+      iconTheme: IconThemeData(color: _subtitle),
       inputDecorationTheme: InputDecorationTheme(
         fillColor: _formField,
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: 24.0,
-          vertical: 24.0
-        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: _cab
-          ),
-          borderRadius: BorderRadius.circular(5.0)
-        ),
+            borderSide: BorderSide(color: _cab),
+            borderRadius: BorderRadius.circular(5.0)),
         filled: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.0)
-        ),
-        hintStyle: TextStyle(
-          color: _subtitle
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        hintStyle: TextStyle(color: _subtitle),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: _dark,
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: _cab,
+        backgroundColor: _dark,
+        unselectedItemColor: _white,
       ),
     );
   }

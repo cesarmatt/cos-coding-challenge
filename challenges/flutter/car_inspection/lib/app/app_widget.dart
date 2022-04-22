@@ -8,10 +8,11 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: "Car Inspection",
-      debugShowCheckedModeBanner: false,
       theme: Atomic.buildTheme(context),
-    ).modular();
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
+    );
   }
 }
