@@ -20,10 +20,6 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Car Inspection'),
-          automaticallyImplyLeading: false,
-        ),
         body: const RouterOutlet(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
@@ -37,9 +33,9 @@ class HomePageState extends State<HomePage> {
                     store.currentIndex = index;
                   });
                   if (index == 0) {
-                    Modular.to.pushNamed('/inspectionlist/');
+                    Modular.to.pushNamed('/home/inspectionlist/');
                   } else if (index == 1) {
-                    Modular.to.pushNamed('/profile/');
+                    Modular.to.pushNamed('/home/profile/');
                   }
                 },
                 currentIndex: store.currentIndex,

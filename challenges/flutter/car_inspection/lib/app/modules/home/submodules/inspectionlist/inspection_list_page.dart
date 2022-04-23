@@ -19,6 +19,10 @@ class InspectionListPageState extends State<InspectionListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Car Inspection'),
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         children: [Text("InspectionList")],
       ),
