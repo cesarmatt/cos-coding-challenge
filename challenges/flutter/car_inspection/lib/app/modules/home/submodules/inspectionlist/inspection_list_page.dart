@@ -26,6 +26,10 @@ class InspectionListPageState extends State<InspectionListPage> {
       body: Column(
         children: [Text("InspectionList")],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
     );
   }
 

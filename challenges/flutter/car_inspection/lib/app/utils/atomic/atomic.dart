@@ -21,6 +21,9 @@ class Atomic {
           fontFamily: 'roboto',
           fontWeight: FontWeight.bold,
         ),
+        iconTheme: IconThemeData(
+          color: _dark,
+        )
       ),
       scaffoldBackgroundColor: _white,
       primaryColor: _cab,
@@ -47,7 +50,7 @@ class Atomic {
             borderSide: BorderSide(color: _cab),
             borderRadius: BorderRadius.circular(5.0)),
         filled: true,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        // border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         hintStyle: TextStyle(color: _subtitle),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -57,6 +60,11 @@ class Atomic {
         selectedItemColor: _cab,
         backgroundColor: _dark,
         unselectedItemColor: _white,
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+            primary: _cab,
+        ),
       ),
     );
   }

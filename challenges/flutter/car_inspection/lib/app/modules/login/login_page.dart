@@ -1,4 +1,4 @@
-import 'package:car_inspection/app/utils/atomic/atoms/the_button.dart';
+import 'package:car_inspection/app/utils/atomic/atoms/primary_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,11 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-
   final LoginStore store = Modular.get();
-  // Move controllers to store file
-  final emailTextEditingController = TextEditingController();
-  final passwordTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,20 +37,18 @@ class LoginPageState extends State<LoginPage> {
                 height: 18,
               ),
               TextFormField(
-                controller: emailTextEditingController,
-                onChanged: (email) { store.onEmailChanged(email); },
+                controller: store.emailTextEditingController,
                 style: textTheme.bodyText1?.copyWith(),
-                decoration: InputDecoration(hintText: 'Email'),
+                decoration: const InputDecoration(hintText: 'Email'),
               ),
               const SizedBox(
                 height: 8,
               ),
               TextFormField(
-                controller: passwordTextEditingController,
-                onChanged: (password) { store.onPasswordChanged(password); },
+                controller: store.passwordTextEditingController,
                 style: textTheme.bodyText1?.copyWith(),
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Password',
                   suffixIcon: Icon(Icons.remove_red_eye),
                 ),
@@ -62,11 +56,11 @@ class LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 16,
               ),
-              TheButtonWidget(
+              PrimaryButtonWidget(
                   onPressed: () {
                     store.signIn();
                   },
-                  child: Text('Sign in')
+                  child: const Text('Sign in')
               )
             ],
           ),

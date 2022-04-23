@@ -21,10 +21,6 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: const RouterOutlet(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.add),
-        ),
         bottomNavigationBar: Observer(
           builder: (_) {
             return BottomNavigationBar(
@@ -36,7 +32,7 @@ class HomePageState extends State<HomePage> {
                     Modular.to.pushNamed('/home/inspectionlist/');
                   } else if (index == 1) {
                     Modular.to.pushNamed('/home/profile/');
-                  }
+                  } else if (index == store.currentIndex) {}
                 },
                 currentIndex: store.currentIndex,
                 items: const [

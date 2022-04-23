@@ -2,6 +2,7 @@ import 'dart:core';
 import 'dart:io';
 import 'package:car_inspection/app/modules/login/model/login_form_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
@@ -10,19 +11,18 @@ import 'model/login_form_state.dart';
 part 'login_store.g.dart';
 
 class LoginStore = _LoginStoreBase with _$LoginStore;
+
 abstract class _LoginStoreBase with Store {
-
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final emailTextEditingController = TextEditingController();
+  final passwordTextEditingController = TextEditingController();
 
-  @observable
-  String currentEmail = '';
-  @observable
-  String currentPassword = '';
   @observable
   LoginFormState formState = LoginFormState.idle();
 
   void signIn() async {
-    if (isPasswordValid(currentPassword) && isEmailValid(currentEmail)) {
+    if (isPasswordValid(passwordTextEditingController.text) &&
+        isEmailValid(emailTextEditingController.text)) {
       doSignIn();
     } else {
       formState = LoginFormState.error();
@@ -32,24 +32,14 @@ abstract class _LoginStoreBase with Store {
   Future<void> doSignIn() async {
     try {
       final credential = await firebaseAuth.signInWithEmailAndPassword(
-          email: currentEmail, password: currentPassword
-      );
+          email: emailTextEditingController.text,
+          password: passwordTextEditingController.text);
       if (credential != null) {
         navigateToHome();
       }
     } on IOException catch (exception) {
       print("Error" + exception.toString());
     }
-  }
-
-  @action
-  void onEmailChanged(String email) {
-    currentEmail = email;
-  }
-
-  @action
-  void onPasswordChanged(String password) {
-    currentPassword = password;
   }
 
   bool isPasswordValid(String password) {
