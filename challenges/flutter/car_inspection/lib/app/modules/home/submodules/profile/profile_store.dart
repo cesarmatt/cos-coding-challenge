@@ -1,70 +1,104 @@
-import 'package:car_inspection/app/data/local/sharedpreferences/shared_preferences_service.dart';
 import 'package:car_inspection/app/data/profile/profile_repository.dart';
-import 'package:car_inspection/app/modules/home/submodules/profile/pickerprefferences/picker_prefferences_dialog.dart';
-import 'package:flutter/material.dart';
+import 'package:car_inspection/app/utils/imagepicker/image_picker_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:car_inspection/app/data/remote/firebase/firebase_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'profile_store.g.dart';
 
 class ProfileStore = _ProfileStoreBase with _$ProfileStore;
 
 abstract class _ProfileStoreBase with Store {
-  final firebaseService = FirebaseService();
-  final emailTextEditingController = TextEditingController();
-  final ImagePicker _picker = ImagePicker();
-  final _repository = ProfileRepository();
-  String imagePath = '';
-  bool hasPreferredMethod = false;
+  final ImagePickerUtils imagePickerUtils = ImagePickerUtils();
+  final ProfileRepository _repository = ProfileRepository();
+
+  @observable
+  bool isLoading = true;
+
+  @observable
+  bool isError = false;
+
+  @observable
+  User? userInfo;
+
+  @observable
+  String? userPreferredUploadMethod;
 
   @action
+  void loadProfilePageData() {
+    isLoading = true;
+    var response = _repository.getUserInfo();
+    if (response != null) {
+      userInfo = response;
+      isLoading = false;
+    } else {
+      isLoading = false;
+      isError = true;
+    }
+  }
+  
+  @action
+  Future<void> getUploadPreferredMethod() async {
+    isLoading = true;
+    var response = await _repository.getPreferredUploadMethod();
+    if (response != null) {
+      userPreferredUploadMethod = response;
+      isLoading = false;
+    } else {
+      isLoading = false;
+      isError = true;
+    }
+  }
+
   Future<void> onUploadMethodSelected(String preferredUploadMethod) async {
-    final response = await _repository.savePreferredUploadMethod(preferredUploadMethod);
+    final response =
+        await _repository.savePreferredUploadMethod(preferredUploadMethod);
     if (response) {
       openSelectedUploadMethod();
     } else {
-      print('ERROR');
+      isError = true;
     }
-  }
-
-  Future<bool> hasPreferredUploadMethod() async {
-    final response = await _repository.hasPreferredUploadMethod();
-    hasPreferredMethod = response;
-    return response;
   }
 
   Future<void> openSelectedUploadMethod() async {
-    final uploadMethod = await _repository.getPreferredUploadMethod();
-    switch (uploadMethod) {
+    switch (userPreferredUploadMethod) {
       case 'camera':
-        _picker.pickImage(source: ImageSource.camera);
+        imagePickerUtils
+            .getImageFromCamera()
+            .then((file) => updateUserPhoto(file?.path ?? ''));
         break;
       case 'gallery':
-        _picker.pickImage(source: ImageSource.gallery);
+        imagePickerUtils
+            .getImageFromGallery()
+            .then((file) => updateUserPhoto(file?.path ?? ''));
     }
   }
 
-  @action
   void onEditPasswordClicked() {
     Modular.to.pushNamed('/home/profile/editpassword', forRoot: true);
   }
 
-  @action
   void onLogoutClicked() {
-    firebaseService.firebaseAuth
-        .signOut()
-        .whenComplete(() => Modular.to.navigate('/'));
+    _repository.signOut().whenComplete(() => Modular.to.navigate('/'));
   }
 
-  void setCurrentUserEmail() {
-    emailTextEditingController.text =
-        firebaseService.getActiveUser()?.email ?? '';
-  }
-
-  void openUploadMethod() {
-
+  @action
+  Future<void> updateUserPhoto(String photoUrl) async {
+    if (photoUrl.isNotEmpty) {
+      isLoading = true;
+      final updateResponse =
+          await _repository.updateUserProfilePicture(photoUrl, userInfo?.uid ?? '');
+      if (updateResponse) {
+        final response =
+            await _repository.getUserProfilePictureUrl(userInfo?.uid ?? '');
+        if (response.isNotEmpty) {
+          loadProfilePageData();
+        }
+      } else {
+        isLoading = false;
+      }
+    } else {
+      isLoading = false;
+    }
   }
 }

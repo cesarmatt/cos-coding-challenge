@@ -1,9 +1,11 @@
+import 'package:car_inspection/app/components/loader/primary_loader_widget.dart';
 import 'package:car_inspection/app/modules/home/submodules/profile/pickerprefferences/picker_prefferences_dialog.dart';
-import 'package:car_inspection/app/utils/atomic/atoms/primary_button_widget.dart';
+import 'package:car_inspection/app/components/button/primary_button_widget.dart';
+import 'package:car_inspection/app/theme/car_inspection_theme.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:car_inspection/app/modules/home/submodules/profile/profile_store.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   final String title;
@@ -19,81 +21,119 @@ class ProfilePageState extends State<ProfilePage> {
   final ProfileStore store = Modular.get();
 
   @override
+  void initState() {
+    super.initState();
+    store.loadProfilePageData();
+    store.getUploadPreferredMethod();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    store.setCurrentUserEmail();
-    store.hasPreferredUploadMethod();
+    var textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Column(children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Image.network(
-                      'https://64.media.tumblr.com/ea15b4330a8d1ca20a3fda92ac2765e7/b61e1bc3a74ef218-7c/s500x750/9c892cd8ad317402793809a83441568553f9700b.jpg',
-                      width: 140,
-                      height: 140,
+      body: Observer(builder: (_) {
+        if (store.isLoading) {
+          return const PrimaryLoaderWidget();
+        } else {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Column(children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        showProfilePicture(),
+                        PrimaryButtonWidget(
+                          onPressed: () {
+                            onButtonClicked();
+                          },
+                          child: const Text("Upload"),
+                        )
+                      ],
                     ),
-                    const Spacer(),
-                    PrimaryButtonWidget(
-                      onPressed: () {
-                        if (store.hasPreferredMethod) {
-                          store.openSelectedUploadMethod();
-                        } else {
-                          showPickerPreferenceDialog(context);
-                        }
-                      },
-                      child: const Text("Upload"),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'User email',
+                          style: textTheme.bodyText1?.copyWith(
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          initialValue: store.userInfo?.email ?? '',
+                          readOnly: true,
+                        ),
+                      ],
                     )
-                  ],
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: store.emailTextEditingController,
-                  readOnly: true,
-                ),
-              ]),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Divider(),
-                  TextButton(
-                      onPressed: () {
-                        store.onEditPasswordClicked();
-                      },
-                      child: const Text('Edit password')),
-                  const Divider(),
-                  TextButton(
-                      onPressed: () {
-                        store.onLogoutClicked();
-                      },
-                      child: const Text('Logout')),
+                  ]),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Divider(),
+                      TextButton(
+                          onPressed: () {
+                            store.onEditPasswordClicked();
+                          },
+                          child: const Text('Edit password')),
+                      const Divider(),
+                      TextButton(
+                          onPressed: () {
+                            store.onLogoutClicked();
+                          },
+                          child: const Text('Logout')),
+                    ],
+                  )
                 ],
-              )
-            ],
-          ),
-        ),
-      ),
+              ),
+            ),
+          );
+        }
+      }),
     );
+  }
+
+  void onButtonClicked() {
+    if (store.userPreferredUploadMethod?.isNotEmpty == true) {
+      store.openSelectedUploadMethod();
+    } else {
+      showPickerPreferenceDialog(context);
+    }
   }
 
   void showPickerPreferenceDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (BuildContext context) =>
-          PickerPreferencesDialog(
-            onUploadMethodSelected: (uploadMethod) {
-              store.onUploadMethodSelected(uploadMethod);
-            },
-          ),
+      builder: (BuildContext context) => PickerPreferencesDialog(
+        onUploadMethodSelected: (uploadMethod) {
+          store.onUploadMethodSelected(uploadMethod);
+        },
+      ),
     );
+  }
+
+  Widget showProfilePicture() {
+    var photoUrl = store.userInfo?.photoURL;
+    var placeholder = 'assets/images/profile_placeholder.png';
+    if (photoUrl != null) {
+      return Image.network(
+        photoUrl,
+        width: MediaQuery.of(context).size.width * 0.35,
+        height: MediaQuery.of(context).size.height * 0.3,
+      );
+    } else {
+      return Image.asset(
+        placeholder,
+        width: MediaQuery.of(context).size.width * 0.35,
+        height: MediaQuery.of(context).size.height * 0.3,
+      );
+    }
   }
 }

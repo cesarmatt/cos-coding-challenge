@@ -1,4 +1,4 @@
-import 'package:car_inspection/app/data/remote/firebase/firebase_service.dart';
+import 'package:car_inspection/app/data/remote/firebase/firebase_auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -8,7 +8,7 @@ part 'edit_password_store.g.dart';
 class EditPasswordStore = _EditPasswordStoreBase with _$EditPasswordStore;
 
 abstract class _EditPasswordStoreBase with Store {
-  final firebaseAuthService = FirebaseService().firebaseAuth;
+  final firebaseAuthService = FirebaseAuthService().firebaseAuth;
   final currentPasswordTextEditingController = TextEditingController();
   final newPasswordTextEditingController = TextEditingController();
   final confirmNewPasswordTextEditingController = TextEditingController();

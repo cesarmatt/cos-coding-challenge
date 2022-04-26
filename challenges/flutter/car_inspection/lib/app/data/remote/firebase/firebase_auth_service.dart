@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseService {
+class FirebaseAuthService {
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
@@ -8,4 +8,7 @@ class FirebaseService {
     return firebaseAuth.currentUser;
   }
 
+  void updateUserPhoto(String photoUrl) {
+    firebaseAuth.currentUser?.updatePhotoURL(photoUrl);
+  }
 }

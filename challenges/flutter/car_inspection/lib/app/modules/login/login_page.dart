@@ -1,4 +1,4 @@
-import 'package:car_inspection/app/utils/atomic/atoms/primary_button_widget.dart';
+import 'package:car_inspection/app/components/button/primary_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/cupertino.dart';

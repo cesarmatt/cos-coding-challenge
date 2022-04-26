@@ -1,5 +1,5 @@
 import 'package:car_inspection/app/modules/home/submodules/profile/editpassword/edit_password_store.dart';
-import 'package:car_inspection/app/utils/atomic/atoms/primary_button_widget.dart';
+import 'package:car_inspection/app/components/button/primary_button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';

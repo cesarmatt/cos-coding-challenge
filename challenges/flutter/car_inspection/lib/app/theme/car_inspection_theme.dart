@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Atomic {
+class CarInspectionTheme {
   static Color _dark = Color(0xFF474b57);
   static Color _cab = Color(0xFFffd452);
   static Color _white = Color(0xFFffffff);
@@ -66,6 +66,9 @@ class Atomic {
             primary: _cab,
         ),
       ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: _cab,
+      )
     );
   }
 }

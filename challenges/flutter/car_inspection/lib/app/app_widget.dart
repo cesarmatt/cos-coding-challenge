@@ -1,8 +1,7 @@
+import 'package:car_inspection/app/theme/car_inspection_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-
-import 'utils/atomic/atomic.dart';
 
 class AppWidget extends StatelessWidget {
 
@@ -10,7 +9,7 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: "Car Inspection",
-      theme: Atomic.buildTheme(context),
+      theme: CarInspectionTheme.buildTheme(context),
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
     );
