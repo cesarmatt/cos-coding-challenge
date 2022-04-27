@@ -57,6 +57,14 @@ mixin _$InspectionStore on _InspectionStoreBase, Store {
     });
   }
 
+  late final _$getInspectionsAsyncAction =
+      AsyncAction('_InspectionStoreBase.getInspections', context: context);
+
+  @override
+  Future<void> getInspections() {
+    return _$getInspectionsAsyncAction.run(() => super.getInspections());
+  }
+
   @override
   String toString() {
     return '''

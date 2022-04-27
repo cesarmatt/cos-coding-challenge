@@ -1,5 +1,5 @@
 import 'package:car_inspection/app/data/inspection/inspection_repository.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../data/model/inspection/inspection.dart';
@@ -20,6 +20,7 @@ abstract class _InspectionStoreBase with Store {
   @observable
   List<Inspection?>? inspections;
 
+  @action
   Future<void> getInspections() async {
     isLoading = true;
     var response = await _inspectionRepository.getInspections();
@@ -32,10 +33,8 @@ abstract class _InspectionStoreBase with Store {
     }
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getInspectionsStream() {
-    isLoading = true;
-    var response = _inspectionRepository.getInspectionsStream();
-    isLoading = false;
-    return response;
+  void onFloatingActionButtonClicked() {
+    Modular.to.pushNamed('/home/inspection/create', forRoot: true);
   }
+
 }

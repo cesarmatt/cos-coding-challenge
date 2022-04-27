@@ -9,12 +9,6 @@ class InspectionRemoteDataSource implements InspectionService {
           fromFirestore: ((snapshot, _) =>
               Inspection.fromJson(snapshot.data()!)),
           toFirestore: ((inspection, _) => inspection.toJson()));
-  final _inspectionsStream = FirebaseFirestore.instance.collection('inspection').snapshots();
-
-  @override
-  Stream<QuerySnapshot<Map<String, dynamic>>> getInspectionsStream() {
-    return _inspectionsStream;
-  }
 
   @override
   Future<List<Inspection>?> getInspections() async {

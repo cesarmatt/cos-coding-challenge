@@ -15,7 +15,4 @@ class InspectionRepository {
     return response;
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getInspectionsStream() {
-    return _remoteDataSource.getInspectionsStream();
-  }
 }

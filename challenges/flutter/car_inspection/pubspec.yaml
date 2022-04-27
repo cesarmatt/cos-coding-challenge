@@ -20,6 +20,8 @@ dependencies:
   build_runner: ^2.1.4
   image_picker: ^0.8.5
   shared_preferences: ^2.0.13
+  syncfusion_flutter_datepicker: ^20.1.51
+  uuid: 3.0.6
 
   # Firebase
   firebase_storage: ^10.2.13

@@ -34,7 +34,7 @@ class InspectionPageState extends State<InspectionPage> {
       body: Observer(
         builder: (_) {
           if (store.isLoading) {
-            return PrimaryLoaderWidget();
+            return const PrimaryLoaderWidget();
           } else {
             return InspectionListWidget(
               onItemPressed: () {
@@ -46,7 +46,9 @@ class InspectionPageState extends State<InspectionPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          store.onFloatingActionButtonClicked();
+        },
         child: const Icon(Icons.add),
       ),
     );
