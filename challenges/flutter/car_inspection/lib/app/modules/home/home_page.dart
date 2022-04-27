@@ -1,4 +1,3 @@
-import 'package:car_inspection/app/modules/home/submodules/inspectionlist/inspection_list_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -29,7 +28,7 @@ class HomePageState extends State<HomePage> {
                     store.currentIndex = index;
                   });
                   if (index == 0) {
-                    Modular.to.pushNamed('/home/inspectionlist/');
+                    Modular.to.pushNamed('/home/inspection/');
                   } else if (index == 1) {
                     Modular.to.pushNamed('/home/profile/');
                   } else if (index == store.currentIndex) {}
