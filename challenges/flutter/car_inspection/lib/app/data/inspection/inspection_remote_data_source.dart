@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:car_inspection/app/data/inspection/inspection_service.dart';
 import 'package:car_inspection/app/data/model/inspection/inspection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,12 +15,13 @@ class InspectionRemoteDataSource implements InspectionService {
       toFirestore: ((inspection, _) => inspection.toJson()));
 
   @override
-  Future<List<Inspection>?> getInspections() async {
+  Future<List<Inspection>> getInspections() async {
     var snapshot = await _firebaseFirestoreInspectionRef
+        .orderBy('inspectionDate', descending: true)
         .get()
         .then((snapshot) => snapshot.docs);
     List<Inspection>? inspections = makeInspectionList(snapshot);
-    return inspections;
+    return inspections ?? [];
   }
 
   @override

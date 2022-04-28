@@ -1,3 +1,4 @@
+import 'package:car_inspection/app/components/list/empty_state_widget.dart';
 import 'package:car_inspection/app/components/loader/primary_loader_widget.dart';
 import 'package:car_inspection/app/modules/home/submodules/inspection/inspection_store.dart';
 import 'package:car_inspection/app/modules/home/submodules/inspection/list/inspection_list_widget.dart';
@@ -35,6 +36,8 @@ class InspectionPageState extends State<InspectionPage> {
         builder: (_) {
           if (store.isLoading) {
             return const PrimaryLoaderWidget();
+          } else if (store.inspections?.isEmpty == true) {
+            return const EmptyStateWidget();
           } else {
             return SingleChildScrollView(
               child: InspectionListWidget(

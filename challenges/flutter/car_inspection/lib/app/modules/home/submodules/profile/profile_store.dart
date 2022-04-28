@@ -9,8 +9,13 @@ part 'profile_store.g.dart';
 class ProfileStore = _ProfileStoreBase with _$ProfileStore;
 
 abstract class _ProfileStoreBase with Store {
+  _ProfileStoreBase({required this.repository}) {
+    loadProfilePageData();
+    getUploadPreferredMethod();
+  }
+
   final ImagePickerUtils imagePickerUtils = ImagePickerUtils();
-  final ProfileRepository _repository = ProfileRepository();
+  final ProfileRepository repository;
 
   @observable
   bool isLoading = true;
@@ -24,10 +29,13 @@ abstract class _ProfileStoreBase with Store {
   @observable
   String? userPreferredUploadMethod;
 
+  @observable
+  String? userPictureUrl;
+
   @action
   void loadProfilePageData() {
     isLoading = true;
-    var response = _repository.getUserInfo();
+    var response = repository.getUserInfo();
     if (response != null) {
       userInfo = response;
       isLoading = false;
@@ -36,11 +44,11 @@ abstract class _ProfileStoreBase with Store {
       isError = true;
     }
   }
-  
+
   @action
   Future<void> getUploadPreferredMethod() async {
     isLoading = true;
-    var response = await _repository.getPreferredUploadMethod();
+    var response = await repository.getPreferredUploadMethod();
     if (response != null) {
       userPreferredUploadMethod = response;
       isLoading = false;
@@ -52,7 +60,7 @@ abstract class _ProfileStoreBase with Store {
 
   Future<void> onUploadMethodSelected(String preferredUploadMethod) async {
     final response =
-        await _repository.savePreferredUploadMethod(preferredUploadMethod);
+        await repository.savePreferredUploadMethod(preferredUploadMethod);
     if (response) {
       openSelectedUploadMethod();
     } else {
@@ -79,18 +87,19 @@ abstract class _ProfileStoreBase with Store {
   }
 
   void onLogoutClicked() {
-    _repository.signOut().whenComplete(() => Modular.to.navigate('/'));
+    repository.signOut().whenComplete(() => Modular.to.navigate('/'));
   }
 
   @action
   Future<void> updateUserPhoto(String photoUrl) async {
     if (photoUrl.isNotEmpty) {
       isLoading = true;
-      final updateResponse =
-          await _repository.updateUserProfilePicture(photoUrl, userInfo?.uid ?? '');
-      if (updateResponse) {
+      final updateResponse = await repository.updateUserProfilePicture(
+          photoUrl, userInfo?.uid ?? '');
+      if (updateResponse?.isNotEmpty == true) {
+        userPictureUrl = updateResponse ?? '';
         final response =
-            await _repository.getUserProfilePictureUrl(userInfo?.uid ?? '');
+            await repository.getUserProfilePictureUrl(userInfo?.uid ?? '');
         if (response?.isNotEmpty == true) {
           loadProfilePageData();
         }

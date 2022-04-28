@@ -13,6 +13,7 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStoreBase with _$LoginStore;
 
 abstract class _LoginStoreBase with Store {
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final emailTextEditingController = TextEditingController();
   final passwordTextEditingController = TextEditingController();

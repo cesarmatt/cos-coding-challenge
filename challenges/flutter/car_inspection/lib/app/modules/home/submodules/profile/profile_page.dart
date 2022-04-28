@@ -120,20 +120,24 @@ class ProfilePageState extends State<ProfilePage> {
   }
 
   Widget showProfilePicture() {
-    var photoUrl = store.userInfo?.photoURL;
+    var photoUrl = store.userPictureUrl;
     var placeholder = 'assets/images/profile_placeholder.png';
-    if (photoUrl != null) {
-      return Image.network(
-        photoUrl,
-        width: MediaQuery.of(context).size.width * 0.35,
-        height: MediaQuery.of(context).size.height * 0.3,
-      );
+    if (store.isLoading) {
+      return const PrimaryLoaderWidget();
     } else {
-      return Image.asset(
-        placeholder,
-        width: MediaQuery.of(context).size.width * 0.35,
-        height: MediaQuery.of(context).size.height * 0.3,
-      );
+      if (photoUrl != null) {
+        return Image.network(
+          photoUrl,
+          width: MediaQuery.of(context).size.width * 0.35,
+          height: MediaQuery.of(context).size.height * 0.3,
+        );
+      } else {
+        return Image.asset(
+          placeholder,
+          width: MediaQuery.of(context).size.width * 0.35,
+          height: MediaQuery.of(context).size.height * 0.3,
+        );
+      }
     }
   }
 }

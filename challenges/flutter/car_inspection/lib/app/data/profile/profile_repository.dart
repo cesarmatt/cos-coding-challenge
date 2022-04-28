@@ -3,48 +3,52 @@ import 'package:car_inspection/app/data/profile/profile_remote_data_source.dart'
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileRepository {
-  final ProfileRemoteDataSource _remoteDataSource = ProfileRemoteDataSource();
-  final ProfileLocalDataSource _localDataSource = ProfileLocalDataSource();
+  ProfileRepository(
+      {required this.remoteDataSource, required this.localDataSource});
+
+  final ProfileRemoteDataSource remoteDataSource;
+
+  final ProfileLocalDataSource localDataSource;
 
   Future<bool> savePreferredUploadMethod(String preferredUploadMethod) async {
     final response =
-        await _localDataSource.savePreferredUploadMethod(preferredUploadMethod);
+        await localDataSource.savePreferredUploadMethod(preferredUploadMethod);
     return response;
   }
 
   Future<String> getPreferredUploadMethod() async {
-    final response = await _localDataSource.getPreferredUploadMethod();
+    final response = await localDataSource.getPreferredUploadMethod();
     return response;
   }
 
   Future<bool> hasPreferredUploadMethod() async {
-    final response = await _localDataSource.hasPreferredUploadMethod();
+    final response = await localDataSource.hasPreferredUploadMethod();
     return response;
   }
 
   Future<bool> signOut() async {
-    final response = await _remoteDataSource.signOut();
+    final response = await remoteDataSource.signOut();
     return response;
   }
 
   User? getUserInfo() {
-    final response = _remoteDataSource.getUserInfo();
+    final response = remoteDataSource.getUserInfo();
     return response;
   }
 
-  Future<bool> updateUserProfilePicture(String photoUrl, String userId) async {
+  Future<String?> updateUserProfilePicture(String photoUrl, String userId) async {
     final response =
-        _remoteDataSource.updateUserProfilePicture(photoUrl, userId);
+        remoteDataSource.updateUserProfilePicture(photoUrl, userId);
     return response;
   }
 
   Future<String?> getUserProfilePictureUrl(String userId) async {
-    final response = await _remoteDataSource.getUserProfilePictureUrl(userId);
+    final response = await remoteDataSource.getUserProfilePictureUrl(userId);
     return response;
   }
 
   Future<bool> editPassword(String updatedPassword) async {
-    final response = await _remoteDataSource.editPassword(updatedPassword);
+    final response = await remoteDataSource.editPassword(updatedPassword);
     return response;
   }
 }

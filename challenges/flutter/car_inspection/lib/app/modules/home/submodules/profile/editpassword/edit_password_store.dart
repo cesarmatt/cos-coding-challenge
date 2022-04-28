@@ -8,7 +8,9 @@ part 'edit_password_store.g.dart';
 class EditPasswordStore = _EditPasswordStoreBase with _$EditPasswordStore;
 
 abstract class _EditPasswordStoreBase with Store {
-  final ProfileRepository _repository = ProfileRepository();
+  _EditPasswordStoreBase({required this.repository});
+
+  final ProfileRepository repository;
   final currentPasswordTextEditingController = TextEditingController();
   final newPasswordTextEditingController = TextEditingController();
   final confirmNewPasswordTextEditingController = TextEditingController();
@@ -21,7 +23,7 @@ abstract class _EditPasswordStoreBase with Store {
 
   Future<void> editPassword(String updatedPassword) async {
     isLoading = true;
-    final response = await _repository.editPassword(updatedPassword);
+    final response = await repository.editPassword(updatedPassword);
     if (response) {
       isLoading = false;
       Modular.to.pop();

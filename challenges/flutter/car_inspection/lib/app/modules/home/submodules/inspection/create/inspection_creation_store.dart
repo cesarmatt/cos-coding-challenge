@@ -3,7 +3,6 @@ import 'package:car_inspection/app/data/model/inspection/inspection.dart';
 import 'package:car_inspection/app/utils/imagepicker/image_picker_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:uuid/uuid.dart';
@@ -14,7 +13,9 @@ class InspectionCreationStore = _InspectionCreationStoreBase
     with _$InspectionCreationStore;
 
 abstract class _InspectionCreationStoreBase with Store {
-  final _repository = InspectionRepository();
+  _InspectionCreationStoreBase({required this.repository});
+
+  final InspectionRepository repository;
   final _imagePickerUtils = ImagePickerUtils();
   final vehicleIdentificationNumberTextEditingController =
       TextEditingController();
@@ -48,7 +49,7 @@ abstract class _InspectionCreationStoreBase with Store {
   Future<void> onCreateClicked() async {
     // FORM VALIDATION
     isLoading = true;
-    var response = await _repository.saveInspection(_makeInspection());
+    var response = await repository.saveInspection(_makeInspection());
     if (response) {
       isLoading = false;
     } else {
@@ -80,7 +81,7 @@ abstract class _InspectionCreationStoreBase with Store {
 
   Future<void> _onPhotoSelected(String? photoUrl) async {
     isLoading = true;
-    var bucketId = await _repository.uploadInspectionPicture(photoUrl ?? '');
+    var bucketId = await repository.uploadInspectionPicture(photoUrl ?? '');
     if (bucketId != null) {
       _getUploadedPicture(bucketId);
       isLoading = false;
@@ -94,7 +95,7 @@ abstract class _InspectionCreationStoreBase with Store {
   Future<void> _getUploadedPicture(String bucketId) async {
     isLoading = true;
     final uploadedPictureUrl =
-        await _repository.getInspectionPictureUrl(bucketId);
+        await repository.getInspectionPictureUrl(bucketId);
     if (uploadedPictureUrl != null) {
       selectedPhotosUrl.add(uploadedPictureUrl);
       var newSelectedPhotosUrlValue = selectedPhotosUrl;

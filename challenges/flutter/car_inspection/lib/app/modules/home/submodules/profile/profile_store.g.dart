@@ -74,6 +74,22 @@ mixin _$ProfileStore on _ProfileStoreBase, Store {
     });
   }
 
+  late final _$userPictureUrlAtom =
+      Atom(name: '_ProfileStoreBase.userPictureUrl', context: context);
+
+  @override
+  String? get userPictureUrl {
+    _$userPictureUrlAtom.reportRead();
+    return super.userPictureUrl;
+  }
+
+  @override
+  set userPictureUrl(String? value) {
+    _$userPictureUrlAtom.reportWrite(value, super.userPictureUrl, () {
+      super.userPictureUrl = value;
+    });
+  }
+
   late final _$getUploadPreferredMethodAsyncAction = AsyncAction(
       '_ProfileStoreBase.getUploadPreferredMethod',
       context: context);
@@ -113,7 +129,8 @@ mixin _$ProfileStore on _ProfileStoreBase, Store {
 isLoading: ${isLoading},
 isError: ${isError},
 userInfo: ${userInfo},
-userPreferredUploadMethod: ${userPreferredUploadMethod}
+userPreferredUploadMethod: ${userPreferredUploadMethod},
+userPictureUrl: ${userPictureUrl}
     ''';
   }
 }

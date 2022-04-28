@@ -22,16 +22,16 @@ class ProfileRemoteDataSource implements ProfileService {
   }
 
   @override
-  Future<bool> updateUserProfilePicture(String photoUrl, String userId) async {
+  Future<String?> updateUserProfilePicture(String photoUrl, String userId) async {
     final response =
         await saveUserProfilePicture(photoUrl, userId);
     if (response) {
       final storedPhotoUrl =
           await getUserProfilePictureUrl(userId);
       _firebaseAuth.currentUser?.updatePhotoURL(photoUrl);
-      return storedPhotoUrl?.isNotEmpty == true;
+      return storedPhotoUrl;
     } else {
-      return false;
+      return null;
     }
   }
 

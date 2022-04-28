@@ -42,9 +42,9 @@ class InspectionListItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 4),
-                    Text('${inspection?.vehicleMake}' ?? ''),
+                    Text('${inspection?.vehicleMake}'),
                     const SizedBox(height: 4),
-                    Text('${inspection?.vehicleModel}' ?? ''),
+                    Text('${inspection?.vehicleModel}'),
                     const SizedBox(height: 4),
                     Text(
                       formatDate(inspection?.inspectionDate),

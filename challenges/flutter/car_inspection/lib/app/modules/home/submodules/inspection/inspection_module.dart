@@ -1,3 +1,5 @@
+import 'package:car_inspection/app/data/inspection/inspection_remote_data_source.dart';
+import 'package:car_inspection/app/data/inspection/inspection_repository.dart';
 import 'package:car_inspection/app/modules/home/submodules/inspection/create/inspection_creation_page.dart';
 import 'package:car_inspection/app/modules/home/submodules/inspection/inspection_page.dart';
 import 'package:car_inspection/app/modules/home/submodules/inspection/inspection_store.dart';
@@ -9,8 +11,10 @@ class InspectionModule extends Module {
 
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton((i) => InspectionStore()),
-    Bind.lazySingleton((i) => InspectionCreationStore())
+    Bind.factory((i) => InspectionRemoteDataSource()),
+    Bind.factory((i) => InspectionRepository(remoteDataSource: i.get())),
+    Bind.lazySingleton((i) => InspectionStore(inspectionRepository: i.get())),
+    Bind.lazySingleton((i) => InspectionCreationStore(repository: i.get()))
   ];
 
   @override

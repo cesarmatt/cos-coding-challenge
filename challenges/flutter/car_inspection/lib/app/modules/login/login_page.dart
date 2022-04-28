@@ -50,7 +50,6 @@ class LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 decoration: const InputDecoration(
                   hintText: 'Password',
-                  suffixIcon: Icon(Icons.remove_red_eye),
                 ),
               ),
               const SizedBox(
