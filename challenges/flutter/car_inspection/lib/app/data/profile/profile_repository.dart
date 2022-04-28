@@ -38,8 +38,13 @@ class ProfileRepository {
     return response;
   }
 
-  Future<String> getUserProfilePictureUrl(String userId) async {
+  Future<String?> getUserProfilePictureUrl(String userId) async {
     final response = await _remoteDataSource.getUserProfilePictureUrl(userId);
+    return response;
+  }
+
+  Future<bool> editPassword(String updatedPassword) async {
+    final response = await _remoteDataSource.editPassword(updatedPassword);
     return response;
   }
 }

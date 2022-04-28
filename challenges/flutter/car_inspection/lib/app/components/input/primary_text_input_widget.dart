@@ -7,13 +7,15 @@ class PrimaryTextInputWidget extends StatelessWidget {
       this.inputTextEditingController,
       this.hint,
       this.initialValue,
-      this.isReadOnly})
+      this.isReadOnly,
+      this.formValidation})
       : super(key: key);
 
   final TextEditingController? inputTextEditingController;
   final String? hint;
   final String? initialValue;
   final bool? isReadOnly;
+  final FormFieldValidator<String>? formValidation;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class PrimaryTextInputWidget extends StatelessWidget {
       initialValue: initialValue,
       style: textTheme.bodyText1?.copyWith(fontSize: 16),
       readOnly: isReadOnly ?? false,
+      validator: formValidation,
     );
   }
 }

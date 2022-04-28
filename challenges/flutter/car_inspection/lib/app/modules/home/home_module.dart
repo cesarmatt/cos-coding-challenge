@@ -20,7 +20,7 @@ class HomeModule extends Module {
   final List<ModularRoute> routes = [
     ChildRoute('/', child: (_, args) => HomePage(), children: [
       ModuleRoute('/inspection', module: InspectionModule()),
-      ModuleRoute('/profile', module: ProfileModule())
+      ModuleRoute('/profile', module: ProfileModule()),
     ]),
   ];
 

@@ -15,7 +15,7 @@ class Inspection {
   String? vehicleIdentificationNumber = '';
   String? vehicleMake = '';
   String? vehicleModel = '';
-  String? vehiclePhoto = '';
+  List<dynamic>? vehiclePhoto;
 
   Inspection.fromJson(Map<String, Object?> json)
       : this(
@@ -25,12 +25,12 @@ class Inspection {
               json['vehicleIdentificationNumber']! as String,
           vehicleMake: json['vehicleMake'] as String,
           vehicleModel: json['vehicleModel'] as String,
-          vehiclePhoto: json['vehiclePhoto'] as String,
+          vehiclePhoto: json['vehiclePhoto'] as List<dynamic>?,
         );
 
   Map<String, Object?> toJson() {
     return {
-      'id': vehicleId,
+      'vehicleId': vehicleId,
       'inspectionDate': inspectionDate,
       'vehicleIdentificationNumber': vehicleIdentificationNumber,
       'vehicleMake': vehicleMake,

@@ -1,22 +1,26 @@
-import 'package:car_inspection/app/data/local/sharedpreferences/shared_preferences_service.dart';
+import 'package:car_inspection/app/data/profile/profile_shared_preferences_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileLocalDataSource {
-  final SharedPreferencesService _sharedPreferencesService =
-  SharedPreferencesService();
+class ProfileLocalDataSource implements ProfileSharedPreferencesService {
 
+  @override
   Future<bool> savePreferredUploadMethod(String preferredUploadMethod) async {
-    final response = await _sharedPreferencesService
-        .savePreferredUploadMethod(preferredUploadMethod);
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final response = await sharedPreferences.setString('preferredUploadMethod', preferredUploadMethod);
     return response;
   }
 
+  @override
   Future<String> getPreferredUploadMethod() async {
-    final response = await _sharedPreferencesService.getPreferredUploadMethod();
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final response = await sharedPreferences.getString('preferredUploadMethod');
     return response ?? '';
   }
 
+  @override
   Future<bool> hasPreferredUploadMethod() async {
-    final response = await _sharedPreferencesService.hasPreferredUploadMethod();
-    return response;
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final response = await sharedPreferences.getString('preferredUploadMethod');
+    return response != null;
   }
 }

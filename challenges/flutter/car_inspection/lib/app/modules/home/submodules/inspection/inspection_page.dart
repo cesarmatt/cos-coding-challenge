@@ -36,21 +36,28 @@ class InspectionPageState extends State<InspectionPage> {
           if (store.isLoading) {
             return const PrimaryLoaderWidget();
           } else {
-            return InspectionListWidget(
-              onItemPressed: () {
-                print("clicked!");
-              },
-              inspections: store.inspections,
+            return SingleChildScrollView(
+              child: InspectionListWidget(
+                onItemPressed: (inspectionId) {
+                  print("Inspection id: $inspectionId");
+                },
+                inspections: store.inspections,
+              ),
             );
           }
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          store.onFloatingActionButtonClicked();
+        onPressed: () async {
+          await _onFloatingActionButtonClicked();
         },
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  Future<void> _onFloatingActionButtonClicked() async {
+    await Modular.to.pushNamed('/home/inspection/create', forRoot: true);
+    await store.getInspections();
   }
 }

@@ -1,27 +1,34 @@
-import 'package:car_inspection/app/data/remote/firebase/firebase_auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import '../../../../../data/profile/profile_repository.dart';
 
 part 'edit_password_store.g.dart';
 
 class EditPasswordStore = _EditPasswordStoreBase with _$EditPasswordStore;
 
 abstract class _EditPasswordStoreBase with Store {
-  final firebaseAuthService = FirebaseAuthService().firebaseAuth;
+  final ProfileRepository _repository = ProfileRepository();
   final currentPasswordTextEditingController = TextEditingController();
   final newPasswordTextEditingController = TextEditingController();
   final confirmNewPasswordTextEditingController = TextEditingController();
 
-  @action
-  Future<void> editPassword(String updatedPassword) async {
-    await firebaseAuthService.currentUser?.updatePassword(updatedPassword);
-    Modular.to.pop();
-  }
+  @observable
+  bool isLoading = false;
 
-  @action
-  void onPasswordChanged(String newPassword) {
-    newPasswordTextEditingController.text = newPassword;
+  @observable
+  bool hasError = false;
+
+  Future<void> editPassword(String updatedPassword) async {
+    isLoading = true;
+    final response = await _repository.editPassword(updatedPassword);
+    if (response) {
+      isLoading = false;
+      Modular.to.pop();
+    } else {
+      hasError = true;
+      isLoading = false;
+    }
   }
 
   @action
@@ -32,8 +39,7 @@ abstract class _EditPasswordStoreBase with Store {
   @action
   void onSaveClicked() {
     if (canSavePassword()) {
-      firebaseAuthService.currentUser
-          ?.updatePassword(newPasswordTextEditingController.text);
+      editPassword(newPasswordTextEditingController.text);
     } else {
       print('ERROR!');
     }

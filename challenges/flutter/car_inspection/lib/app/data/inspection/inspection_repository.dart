@@ -1,9 +1,9 @@
 import 'package:car_inspection/app/data/inspection/inspection_remote_data_source.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/inspection/inspection.dart';
 
 class InspectionRepository {
-  final InspectionRemoteDataSource _remoteDataSource = InspectionRemoteDataSource();
+  final InspectionRemoteDataSource _remoteDataSource =
+      InspectionRemoteDataSource();
 
   Future<List<Inspection>?> getInspections() async {
     var response = await _remoteDataSource.getInspections();
@@ -15,4 +15,13 @@ class InspectionRepository {
     return response;
   }
 
+  Future<String?> uploadInspectionPicture(String photoUrl) async {
+    final response = _remoteDataSource.uploadInspectionPicture(photoUrl);
+    return response;
+  }
+
+  Future<String?> getInspectionPictureUrl(String inspectionId) async {
+    final response = await _remoteDataSource.getInspectionPictureUrl(inspectionId);
+    return response;
+  }
 }

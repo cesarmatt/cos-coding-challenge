@@ -33,8 +33,4 @@ abstract class _InspectionStoreBase with Store {
     }
   }
 
-  void onFloatingActionButtonClicked() {
-    Modular.to.pushNamed('/home/inspection/create', forRoot: true);
-  }
-
 }

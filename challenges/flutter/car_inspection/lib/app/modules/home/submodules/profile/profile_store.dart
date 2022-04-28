@@ -91,7 +91,7 @@ abstract class _ProfileStoreBase with Store {
       if (updateResponse) {
         final response =
             await _repository.getUserProfilePictureUrl(userInfo?.uid ?? '');
-        if (response.isNotEmpty) {
+        if (response?.isNotEmpty == true) {
           loadProfilePageData();
         }
       } else {
